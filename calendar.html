@@ -1,0 +1,80 @@
+ <!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>التقويم</title>
+
+<style>
+body{font-family:Cairo;text-align:center;background:#f5f1e8;}
+
+.days{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px;
+padding:20px;
+}
+
+.day{
+background:white;
+padding:20px;
+border-radius:12px;
+}
+
+.done{background:#a8e6a3;}
+
+.nav{position:fixed;bottom:0;width:100%;background:white;display:flex;justify-content:space-around;padding:10px;}
+</style>
+</head>
+
+<body>
+
+<h2>🌱 تقويم القراءة</h2>
+
+<div class="days" id="days"></div>
+<h3 id="badge"></h3>
+
+<script>
+
+let daysData = JSON.parse(localStorage.getItem("days")) || [];
+
+function render(){
+
+days.innerHTML="";
+
+for(let i=0;i<7;i++){
+
+let d=document.createElement("div");
+d.className="day";
+
+if(daysData[i]){
+d.classList.add("done");
+d.innerHTML="🌱 يوم "+(i+1);
+}else{
+d.innerHTML="يوم "+(i+1);
+}
+
+days.appendChild(d);
+}
+
+// شارة
+if(daysData.length>=7){
+badge.innerHTML="🏆 سلسلة 7 أيام!";
+}else{
+badge.innerHTML="استمري 💛";
+}
+
+}
+
+render();
+
+</script>
+
+<div class="nav">
+<a href="index.html">📚</a>
+<a href="add-book.html">➕</a>
+<a href="calendar.html">📅</a>
+<a href="profile.html">👤</a>
+</div>
+
+</body>
+</html>

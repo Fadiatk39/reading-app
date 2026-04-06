@@ -1,0 +1,67 @@
+ <!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>إضافة كتاب</title>
+
+<style>
+body{
+font-family:Cairo;
+background:#f5f1e8;
+text-align:center;
+}
+
+input{
+width:80%;
+padding:10px;
+margin:8px;
+border-radius:10px;
+border:none;
+}
+
+button{
+padding:10px;
+border:none;
+border-radius:10px;
+background:#c8a97e;
+color:white;
+width:80%;
+}
+</style>
+</head>
+
+<body>
+
+<h2>➕ إضافة كتاب</h2>
+
+<input id="title" placeholder="📚 اسم الكتاب">
+<input id="author" placeholder="✍️ اسم الكاتب">
+<input id="pages" type="number" placeholder="📄 عدد الصفحات">
+<input id="read" type="number" placeholder="📖 كم قرأت">
+
+<button onclick="add()">إضافة</button>
+
+<script>
+
+function add(){
+
+let books = JSON.parse(localStorage.getItem("books")) || [];
+
+books.push({
+title:title.value,
+author:author.value,
+pages:Number(pages.value),
+read:Number(read.value)
+});
+
+localStorage.setItem("books",JSON.stringify(books));
+
+// يرجع للرئيسية
+window.location="index.html";
+
+}
+
+</script>
+
+</body>
+</html>

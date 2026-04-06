@@ -1,0 +1,141 @@
+ <!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>مكتبتي</title>
+
+<style>
+body{font-family:Cairo;background:#f5f1e8;text-align:center;padding-bottom:80px;}
+
+.quote{margin:15px;font-style:italic;}
+
+.card{
+background:white;
+padding:15px;
+margin:10px;
+border-radius:12px;
+}
+
+progress{width:100%;}
+
+button{
+padding:8px;
+margin:5px;
+border:none;
+border-radius:8px;
+background:#c8a97e;
+color:white;
+}
+
+.badge{
+margin-top:5px;
+font-size:14px;
+}
+
+.nav{
+position:fixed;
+bottom:0;
+width:100%;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>📚 مكتبتي</h2>
+
+<div class="quote">
+"القارئ يعيش ألف حياة قبل أن يموت"
+</div>
+
+<div id="books"></div>
+
+<script>
+
+let books = JSON.parse(localStorage.getItem("books")) || [];
+
+function showBooks(){
+booksDiv.innerHTML="";
+
+books.forEach((b,i)=>{
+
+let percent = (b.read / b.pages) * 100;
+let badgeText = "📖 مستمر";
+
+if(percent >= 50) badgeText = "🔥 قربت!";
+if(percent >= 100) badgeText = "🏆 مكتمل";
+
+booksDiv.innerHTML+=`
+<div class="card">
+
+<h3>${b.title}</h3>
+<p>✍️ ${b.author}</p>
+
+<div class="badge">${badgeText}</div>
+
+<p>${b.read} / ${b.pages}</p>
+
+<progress value="${b.read}" max="${b.pages}"></progress>
+
+<br>
+
+<button onclick="update(${i})">تحديث</button>
+<button onclick="del(${i})">حذف</button>
+
+</div>
+`;
+});
+}
+
+function update(i){
+
+let newRead = prompt("كم صفحة قرأتي اليوم؟");
+
+if(!newRead) return;
+
+// 🔥 هنا التعديل المهم (نجمع)
+books[i].read += Number(newRead);
+
+// 🔥 تسجيل يوم قراءة
+let today = new Date().toISOString().split("T")[0];
+let days = JSON.parse(localStorage.getItem("days")) || [];
+
+if(!days.includes(today)){
+days.push(today);
+localStorage.setItem("days",JSON.stringify(days));
+}
+
+if(books[i].read >= books[i].pages){
+books[i].read = books[i].pages;
+alert("🎉 أحسنت! أنهيت الكتاب!");
+}
+
+localStorage.setItem("books",JSON.stringify(books));
+showBooks();
+}
+
+function del(i){
+books.splice(i,1);
+localStorage.setItem("books",JSON.stringify(books));
+showBooks();
+}
+
+let booksDiv = document.getElementById("books");
+
+showBooks();
+
+</script>
+
+<div class="nav">
+<a href="index.html">📚</a>
+<a href="add-book.html">➕</a>
+<a href="calendar.html">📅</a>
+<a href="profile.html">👤</a>
+</div>
+
+</body>
+</html>

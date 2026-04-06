@@ -1,0 +1,68 @@
+ <!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>بروفايلي</title>
+
+<style>
+body{font-family:Cairo;text-align:center;background:#f5f1e8;padding-bottom:80px;}
+.card{background:white;margin:15px;padding:20px;border-radius:12px;}
+button{padding:10px;margin:5px;border:none;border-radius:10px;}
+.whats{background:#25D366;color:white;}
+.logout{background:#e74c3c;color:white;}
+.nav{position:fixed;bottom:0;width:100%;background:white;display:flex;justify-content:space-around;padding:10px;}
+</style>
+</head>
+
+<body>
+
+<h2>👤 بروفايلي</h2>
+
+<div class="card">
+<p>📚 عدد الكتب: <span id="booksCount"></span></p>
+<p>📖 مجموع الصفحات: <span id="pagesCount"></span></p>
+<p>🌱 أيام القراءة: <span id="daysCount"></span></p>
+</div>
+
+<button class="whats" onclick="goWhats()">💬 قناة واتساب</button>
+<button class="logout" onclick="logout()">🚪 تسجيل خروج</button>
+
+<script>
+
+// كتب
+let books = JSON.parse(localStorage.getItem("books")) || [];
+
+let count = books.length;
+let pages = 0;
+
+books.forEach(b=>pages+=b.pages);
+
+booksCount.innerText=count;
+pagesCount.innerText=pages;
+
+// الأيام
+let days = JSON.parse(localStorage.getItem("days")) || [];
+daysCount.innerText=days.length;
+
+// واتساب
+function goWhats(){
+window.open("https://whatsapp.com/channel/0029VbCNerBKrWQtT9Fy382U");
+}
+
+// تسجيل خروج (مسح بيانات)
+function logout(){
+localStorage.clear();
+location.reload();
+}
+
+</script>
+
+<div class="nav">
+<a href="index.html">📚</a>
+<a href="add-book.html">➕</a>
+<a href="calendar.html">📅</a>
+<a href="profile.html">👤</a>
+</div>
+
+</body>
+</html>
